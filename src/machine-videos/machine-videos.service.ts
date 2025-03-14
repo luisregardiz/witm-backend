@@ -14,19 +14,18 @@ export class MachineVideosService {
     maxResults = 5,
   ): Promise<any> {
     // Step 1: Identify the machine using Gemini
-    const machineName = await this.geminiService.identifyMachineFromImage(
-      imageBase64,
-    );
+    const machineInformation =
+      await this.geminiService.identifyMachineFromImage(imageBase64);
 
     // Step 2: Search for videos about the identified machine
-    const searchQuery = `${machineName} machine how it works`;
+    const searchQuery = `${machineInformation.name} tutorial`;
     const videos = await this.youtubeService.searchVideos(
       searchQuery,
       maxResults,
     );
 
     return {
-      machineName,
+      machineInformation,
       videos,
     };
   }
