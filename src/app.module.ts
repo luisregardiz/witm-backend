@@ -1,9 +1,14 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { YoutubeModule } from './youtube/youtube.module';
 
 @Module({
-  imports: [],
+  imports: [
+    ConfigModule.forRoot(), // For loading environment variables
+    YoutubeModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
