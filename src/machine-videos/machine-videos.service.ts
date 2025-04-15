@@ -11,7 +11,7 @@ export class MachineVideosService {
 
   async getMachineVideosFromImage(
     imageBase64: string,
-    maxResults = 5,
+    maxResults = 6,
   ): Promise<any> {
     // Step 1: Identify the machine using Gemini
     const machineInformation =
