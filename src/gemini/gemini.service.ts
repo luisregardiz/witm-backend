@@ -36,6 +36,7 @@ export class GeminiService {
         '1. "name": The name of the machine or equipment ' +
         '2. "description": A brief description (max 2 sentences) ' +
         '3. "targetMuscles": An array of muscle groups targeted by this machine ' +
+        '4. "howToUse": Step-by-step instructions on how to use the machine' +
         'Return only valid JSON without any additional text.';
 
       // Generate content with the image
@@ -53,12 +54,14 @@ export class GeminiService {
         const jsonString = jsonMatch ? jsonMatch[0] : text;
 
         const parsedData = JSON.parse(jsonString);
+        console.log(parsedData);
 
         // Return only the specific fields needed
         return {
           name: parsedData.name || '',
           description: parsedData.description || '',
           targetMuscles: parsedData.targetMuscles || [],
+          howToUse: parsedData.howToUse || [],
         };
       } catch (jsonError) {
         console.error('Failed to parse JSON response:', text);
