@@ -7,14 +7,41 @@ import {
   MaxFileSizeValidator,
   FileTypeValidator,
 } from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiConsumes,
+  ApiBody,
+} from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MachineVideosService } from './machine-videos.service';
 
+@ApiTags('machine-videos')
 @Controller('machine-videos')
 export class MachineVideosController {
   constructor(private readonly machineVideosService: MachineVideosService) {}
 
   @Post('identify-and-find-videos')
+  @ApiOperation({ summary: 'Identify machine and find related videos' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Image file to identify machine and find videos',
+    schema: {
+      type: 'object',
+      properties: {
+        image: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Machine identified and videos found successfully',
+  })
+  @ApiResponse({ status: 422, description: 'Invalid file format or size' })
   @UseInterceptors(FileInterceptor('image'))
   async identifyAndFindVideos(
     @UploadedFile(
